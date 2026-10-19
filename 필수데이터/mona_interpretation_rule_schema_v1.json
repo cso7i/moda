@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mona.local/schema/interpretation-rule-v1.json",
+  "title": "MONA Interpretation Rule v1",
+  "type": "object",
+  "required": [
+    "rule_id",
+    "group",
+    "version",
+    "priority",
+    "scope",
+    "domain_ids",
+    "when",
+    "effect"
+  ],
+  "properties": {
+    "rule_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "group": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "DRAFT",
+        "EXPERT_REVIEW",
+        "SHADOW",
+        "APPROVED",
+        "DEPRECATED"
+      ]
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999
+    },
+    "scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "NATAL",
+          "DAEWOON",
+          "YEAR",
+          "MONTH",
+          "WEEK",
+          "DAY",
+          "COMPATIBILITY",
+          "NAME",
+          "TOJEONG",
+          "STYLE",
+          "MONA"
+        ]
+      },
+      "minItems": 1
+    },
+    "domain_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "when": {
+      "type": "object"
+    },
+    "exclude_when": {
+      "type": "object"
+    },
+    "effect": {
+      "type": "object",
+      "required": [
+        "direction",
+        "strength"
+      ],
+      "properties": {
+        "direction": {
+          "type": "string",
+          "enum": [
+            "FAVORABLE",
+            "CAUTION",
+            "NEUTRAL"
+          ]
+        },
+        "strength": {
+          "type": "string",
+          "enum": [
+            "LOW",
+            "MEDIUM",
+            "HIGH"
+          ]
+        },
+        "theme_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "content": {
+      "type": "object"
+    },
+    "action": {
+      "type": "object"
+    },
+    "presentation": {
+      "type": "object"
+    },
+    "safety": {
+      "type": "object"
+    },
+    "evidence_template": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}
