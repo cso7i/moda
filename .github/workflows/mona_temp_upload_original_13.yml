@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      SOURCE_URL: 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-03e0-8206-a3d2-26ad4a86cdcf/raw?se=2026-10-23T08%3A58%3A44Z&sp=r&sv=2026-02-06&sr=b&scid=79cfde76-7529-5cef-a1c6-f669dfafcb1b&skoid=3e273c3d-5ea1-4088-9e18-79685531b184&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-22T23%3A23%3A10Z&ske=2026-10-23T23%3A23%3A10Z&sks=b&skv=2026-02-06&sig=BKst0wzHdntACAQKgoLgGcw0vBaeBY/qvah3xbbf2a0%3D'
+      SOURCE_URL: 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-6d10-8206-ac88-cc1ab9468a06/raw?se=2026-10-23T09%3A16%3A12Z&sp=r&sv=2026-02-06&sr=b&scid=af1b2343-126a-5263-be01-ce6c03a7eb13&skoid=3e273c3d-5ea1-4088-9e18-79685531b184&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-22T23%3A23%3A10Z&ske=2026-10-23T23%3A23%3A10Z&sks=b&skv=2026-02-06&sig=dnB/SMs4guDBLfojQj5IV5gRo70nU%2BQ9im7o9naSLCk%3D'
       TARGET_PATH: 'original/13_滴天髓闡微_下/적천수천미_하.pdf'
       EXPECTED_SHA256: '85937b920c7c3d26414098ffad10f5df89c555d64523a2c2e252606ea748c9d8'
       EXPECTED_SIZE: '36035645'
