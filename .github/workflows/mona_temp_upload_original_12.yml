@@ -1,0 +1,43 @@
+name: MONA temporary original PDF upload
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/mona_temp_upload_original_12.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  upload-original:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SOURCE_URL: 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-4270-8206-b968-15158f0f088b/raw?se=2026-10-23T08%3A50%3A02Z&sp=r&sv=2026-02-06&sr=b&scid=de4f3785-f76e-562a-8d3f-2e9742edd6f5&skoid=3e273c3d-5ea1-4088-9e18-79685531b184&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-23T00%3A11%3A27Z&ske=2026-10-24T00%3A11%3A27Z&sks=b&skv=2026-02-06&sig=ZvgrlS8SMDZ4MwhvhmoUFdIGN9V4j4HRDIX9sHrjXH0%3D'
+      TARGET_PATH: 'original/12_滴天髓闡微_上/적천수천미_상.pdf'
+      EXPECTED_SHA256: '02cc400c2c1c562741392b2c08b849163a6a616db531f20f94987e3e076e2c24'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download exact uploaded PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$TARGET_PATH")"
+          curl -L --fail --retry 3 --retry-delay 2 "$SOURCE_URL" -o "$TARGET_PATH"
+          echo "$EXPECTED_SHA256  $TARGET_PATH" | sha256sum -c -
+          test "$(stat -c %s "$TARGET_PATH")" = "23479776"
+
+      - name: Commit original and remove temporary workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/mona_temp_upload_original_12.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "$TARGET_PATH" .github/workflows/mona_temp_upload_original_12.yml
+          git commit -m "Add original 滴天髓闡微 upper volume PDF"
+          git push origin HEAD:main
