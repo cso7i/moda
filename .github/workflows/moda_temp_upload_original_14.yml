@@ -1,0 +1,42 @@
+name: MODA temporary original PDF upload 14
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/moda_temp_upload_original_14.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  upload-original:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SOURCE_URL: 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-755c-8206-bb2d-c4da6f1a5adc/raw?se=2026-11-24T03%3A39%3A51Z&sp=r&sv=2026-06-06&sr=b&scid=731624ac-4ae8-5a5e-a26f-f122a8c83184&skoid=3e273c3d-5ea1-4088-9e18-79685531b184&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-24T00%3A40%3A58Z&ske=2026-11-25T00%3A40%3A58Z&sks=b&skv=2026-06-06&sig=sukAAFdtm17aGeNo1ph%2BInLvumIO%2BP%2BAGVtw319V/0A%3D'
+      TARGET_PATH: 'original/14_子平眞詮評註/자평진전평주_청학출판사.pdf'
+      EXPECTED_SHA256: 'a0e5a9001907779da3aab1c80e5dd260a5aaad08ba968e810b898de8ddc68b6a'
+      EXPECTED_SIZE: '15275635'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download exact uploaded PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$TARGET_PATH")"
+          curl -L --fail --retry 3 --retry-delay 2 "$SOURCE_URL" -o "$TARGET_PATH"
+          echo "$EXPECTED_SHA256  $TARGET_PATH" | sha256sum -c -
+          test "$(stat -c %s "$TARGET_PATH")" = "$EXPECTED_SIZE"
+      - name: Commit original and remove temporary workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/moda_temp_upload_original_14.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "$TARGET_PATH" .github/workflows/moda_temp_upload_original_14.yml
+          git commit -m "Add original 子平眞詮評註 PDF"
+          git push origin HEAD:main
